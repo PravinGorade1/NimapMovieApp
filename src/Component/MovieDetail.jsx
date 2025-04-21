@@ -19,52 +19,56 @@ const MovieDetail = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <div className="container mt-5">Loading...</div>;
-  if (!movie) return <div className="container mt-5">Movie details not found!</div>;
+  if (loading) return <div className="container mt-5 text-center text-light">Loading...</div>;
+  if (!movie) return <div className="container mt-5 text-center text-danger">Movie details not found!</div>;
 
   return (
-    <div className="container mt-5 bg-secondary rounded">
-      <h1>{movie.title}</h1>
-      <div className="row">
+    <div className="container mt-5 p-4 rounded-4 bg-dark text-light shadow-lg">
+      <h1 className="text-center mb-4 text-warning">{movie.title}</h1>
+      <div className="row g-4 align-items-start">
         <div className="col-md-4">
           <img
             src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
             alt={movie.title}
-            className="img-fluid rounded-3"
+            className="img-fluid rounded-4 shadow"
           />
         </div>
-        <div className="col-md-6">
-          <h3>Overview</h3>
-          <p>{movie.overview}</p>
-          <p><strong>Release Date:</strong> {movie.release_date}</p>
-          <p><strong>Rating:</strong> {movie.vote_average}</p>
-          <p><strong>Runtime:</strong> {movie.runtime} minutes</p>
-          <p><strong>Genres:</strong> {movie.genres.map((genre) => genre.name).join(", ")}</p>
+        <div className="col-md-8">
+          <div className="bg-secondary p-3 rounded-4 shadow-sm">
+            <h3 className="text-info">Overview</h3>
+            <p>{movie.overview}</p>
+            <p><strong className="text-warning">Release Date:</strong> {movie.release_date}</p>
+            <p><strong className="text-warning">Rating:</strong> {movie.vote_average}</p>
+            <p><strong className="text-warning">Runtime:</strong> {movie.runtime} minutes</p>
+            <p>
+              <strong className="text-warning">Genres:</strong>{" "}
+              {movie.genres.map((genre) => genre.name).join(", ")}
+            </p>
           </div>
+        </div>
+      </div>
 
-          <h3 className="text-center text-light my-3 ">Top Cast</h3>
-          <div className="row">
-            {cast.map((actor) => (
-              <div className="col-md-3 col-sm-4 mb-3" key={actor.id}>
-                <div className="card w-75 rounded-5 bg-black">
-                  <img
-                    src={
-                      actor.profile_path
-                        ? `https://image.tmdb.org/t/p/w200${actor.profile_path}` // Actor photo
-                        : "https://via.placeholder.com/200x300?text=No+Image" // Fallback image
-                    }
-                    alt={actor.name}
-                    className="card-img-top"
-                  />
-                  <div className="card-body text-center">
-                    <h6>{actor.name}</h6>
-                    <p className="text-muted small">as {actor.character}</p>
-                  </div>
-                </div>
+      <h3 className="text-center mt-5 mb-3 text-info">Top Cast</h3>
+      <div className="row justify-content-center">
+        {cast.map((actor) => (
+          <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={actor.id}>
+            <div className="card bg-black text-light rounded-4 h-100 shadow-sm">
+              <img
+                src={
+                  actor.profile_path
+                    ? `https://image.tmdb.org/t/p/w200${actor.profile_path}`
+                    : "https://via.placeholder.com/200x300?text=No+Image"
+                }
+                alt={actor.name}
+                className="card-img-top rounded-top-4"
+              />
+              <div className="card-body text-center">
+                <h6 className="card-title">{actor.name}</h6>
+                <p className="text-muted small">as {actor.character}</p>
               </div>
-            ))}
+            </div>
           </div>
-       
+        ))}
       </div>
     </div>
   );
